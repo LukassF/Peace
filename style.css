@@ -15,7 +15,7 @@ html, body{
   height:100vh;
   left:0;
   top:0;
-  transition: all 0.3s;
+  transition: background-color 0.3s;
   display: grid;
   place-content: center;
   place-items: center;
@@ -42,7 +42,8 @@ aside{
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-
+  gap:20px;
+  z-index: 5;
 }
 aside>div{
   width:100%;
@@ -55,6 +56,37 @@ aside>div{
 }
 h1{
   cursor: default;
+}
+h3{
+  position: absolute;
+  top:10%;
+  left:50%;
+  width:100vw;
+  text-align: center;
+  transform: translateX(-50%);
+  /* margin-bottom: 100px; */
+  color:rgb(255, 255, 255);
+  font-size: 0.9em;
+}
+
+@media screen and (max-width:800px) {
+  h3{
+  font-size: 0.6em;
+  }
+}
+
+#tooltip{
+  position: absolute;
+  display: inline-block;
+  width:200px;
+  left:100px;
+  background-color: rgb(75, 34, 34);
+  border-radius: 10px;
+  padding: 10px;
+  color:white;
+  cursor: default;
+  opacity:0;
+  transition: opacity 0.2s;
 }
 button{
   font-size: 1.5em;
@@ -75,11 +107,22 @@ button{
   color:rgb(78, 78, 78);
 }
 button > img{
-  /* width:60%; */
   aspect-ratio: 1/1;
 }
 button:hover{
   background-color: rgba(255, 255, 255);
+}
+button:disabled{
+  border-color: grey;
+  color:grey;
+}
+button:disabled:hover{
+  background-color: transparent;
+  color:grey;
+  cursor: default;
+}
+button:disabled:hover + #tooltip{
+    opacity:1;
 }
 canvas{
   display:flex;

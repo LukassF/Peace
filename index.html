@@ -16,6 +16,7 @@
   </head>
   <body>
     <div id="overlay">
+      <h3 id="result-display">0 boulders dumped!</h3>
       <div id="overlay-content">
         <h1>Use to move!</h1>
         <img
@@ -50,6 +51,10 @@
         </button>
       </div>
       <div id="utility-buttons">
+        <button id="add-object-button" disabled>+</button>
+        <span id="tooltip"
+          >Only one boulder can be spawned at any given time!</span
+        >
         <button onclick="window.location.reload()">
           <i class="fa fa-refresh"></i>
         </button>

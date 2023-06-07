@@ -22,7 +22,7 @@ hemiLight.position.set(2000, 200, 0);
 scene.add(hemiLight);
 
 const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-dirLight.position.set(0, 10, 4);
+dirLight.position.set(0, 10, 8);
 dirLight.castShadow = true;
 scene.add(dirLight);
 
@@ -109,6 +109,7 @@ loader.load("./assets/Desert pebble.glb", (glb) => {
       node.castShadow = true;
     }
   });
+
   object = glb.scene;
   scene.add(glb.scene);
 });
@@ -130,7 +131,7 @@ const objectPhysMat = new CANNON.Material();
 const objectBody = new CANNON.Body({
   mass: 0.05,
   shape: new CANNON.Box(new CANNON.Vec3(0.4, 0.3, 0.4)),
-  position: new CANNON.Vec3(0, 10, 0),
+  position: new CANNON.Vec3(0, 5, 0),
   material: objectPhysMat,
 });
 const spherePhysMat = new CANNON.Material();
@@ -213,7 +214,10 @@ getModel("Tent", 1.2, tentBody.position, tentBody.quaternion);
 getModel("Bonfire", 2.5, bonfireBody.position, bonfireBody.quaternion);
 getModel("Cactus", 0.12, cactusBody2.position, cactusBody2.quaternion);
 getModel("Gold Rocks", 7, goldRocksBody.position, goldRocksBody.quaternion);
+
 const timeStep = 1 / 60;
+let result = 0;
+const resultDisplay = document.getElementById("result-display");
 
 const loop = () => {
   window.requestAnimationFrame(loop);
@@ -225,13 +229,23 @@ const loop = () => {
     object.position.copy(objectBody.position);
     object.quaternion.copy(objectBody.quaternion);
 
-    if (object.position.y < -20) scene.remove(object);
+    if (object.position.y < -10) {
+      scene.remove(object);
+      objectBody.position.set(0, 7, 0);
+      addButton.disabled = false;
+      result++;
+      resultDisplay.innerText = `${result} boulders dumped!`;
+    }
   }
   if (player) {
     player.position.copy(playerBody.position);
     player.quaternion.copy(playerBody.quaternion);
     camera.lookAt(player.position.x, player.position.y, player.position.z);
     boom.position.copy(player.position);
+
+    if (playerBody.position.y < -10) {
+      playerBody.position.set(0, 2, 1.5);
+    }
   }
 
   renderer.render(scene, camera);
@@ -283,6 +297,7 @@ window.addEventListener("keydown", () => {
     );
   if (keysMap[" "]) playerBody.applyImpulse(new CANNON.Vec3(0, 6, 0));
 });
+
 const overlay = document.getElementById("overlay");
 
 const changeTime = (timeOfDay) => {
@@ -291,7 +306,7 @@ const changeTime = (timeOfDay) => {
       gsap.to(dirLight.position, {
         x: 0,
         y: 10,
-        z: 4,
+        z: 8,
         duration: 0.3,
       });
       scene.background.lerpColors(
@@ -305,7 +320,7 @@ const changeTime = (timeOfDay) => {
       gsap.to(dirLight.position, {
         x: 0,
         y: 3,
-        z: 13,
+        z: -13,
         duration: 0.3,
       });
       scene.background.lerpColors(
@@ -337,10 +352,18 @@ const changeTime = (timeOfDay) => {
 const sunsetButton = document.getElementById("sunset");
 const nightButton = document.getElementById("night");
 const noonButton = document.getElementById("noon");
+const addButton = document.getElementById("add-object-button");
 
 sunsetButton.addEventListener("click", () => changeTime("sunset"));
 nightButton.addEventListener("click", () => changeTime("night"));
 noonButton.addEventListener("click", () => changeTime("noon"));
+addButton.addEventListener("click", () => {
+  addButton.disabled = true;
+  canvas.click();
+  objectBody.position.set(0, 7, 0);
+  scene.add(object);
+});
+
 const overlayContent = document.getElementById("overlay-content");
 
 window.onload = () => {
