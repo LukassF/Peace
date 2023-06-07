@@ -9,23 +9,77 @@ html, body{
   overflow: hidden;
 }
 
-div{
+#overlay{
   position: absolute;
   width:100vw;
   height:100vh;
   left:0;
   top:0;
-  /* background-color: rgba(243, 156, 42, 0.3); sunset */
-  /* background-color: rgba(0, 0, 0,0.5);  night*/
+  transition: all 0.3s;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  font-size: 3em;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#overlay > div{
+  display: grid;
+  place-content: center;
+  place-items: center;
+  transition: opacity 2s;
+  transition-delay: 1s;
 }
 
 aside{
   position: absolute;
-  width:5%;
+  width:100px;
   height:100vh;
   left:0;
   top:0;
-  background-color: blue;
+  padding: 20px 10px;
+  /* background-color: blue; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+}
+aside>div{
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  gap:20px;
+}
+h1{
+  cursor: default;
+}
+button{
+  font-size: 1.5em;
+  width:90%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  border: solid white 2px;
+  background-color: transparent;
+  color:white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+#utility-buttons > button:hover{
+  color:rgb(78, 78, 78);
+}
+button > img{
+  /* width:60%; */
+  aspect-ratio: 1/1;
+}
+button:hover{
+  background-color: rgba(255, 255, 255);
 }
 canvas{
   display:flex;

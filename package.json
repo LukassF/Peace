@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "cannon-es": "^0.20.0",
-    "gsap": "^3.11.5",
+    "gsap": "^3.12.0",
     "physijs": "^1.0.4",
     "three": "^0.152.2"
   }
