@@ -10,6 +10,8 @@ sand.repeat.set(10, 10);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc2e5ee);
+// scene.background = new THREE.Color(0x07011f); night
+// scene.background = new THREE.Color(0xf86e39); sunset
 
 const planeGeometry = new THREE.BoxGeometry(10, 0.2, 10);
 const planeMaterial = new THREE.MeshStandardMaterial({
@@ -19,43 +21,59 @@ const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.receiveShadow = true;
 scene.add(plane);
 
-let cactus;
+const getModel = (url, scale, bodyPosition, bodyQuaternion) => {
+  const loader = new GLTFLoader();
+  loader.load(`./assets/${url}.glb`, (glb) => {
+    glb.scene.scale.setScalar(scale);
+    glb.scene.traverse(function (node) {
+      if (node.isMesh) {
+        node.castShadow = true;
+        node.receiveShadow = true;
+      }
+    });
+    glb.scene.position.copy(bodyPosition);
+    glb.scene.quaternion.copy(bodyQuaternion);
+    scene.add(glb.scene);
+  });
+};
+
+// let cactus;
+// const loader = new GLTFLoader();
+// loader.load("./assets/cactus.glb", (glb) => {
+//   glb.scene.scale.setScalar(0.17);
+//   glb.scene.traverse(function (node) {
+//     if (node.isMesh) {
+//       node.castShadow = true;
+//     }
+//   });
+//   cactus = glb.scene;
+//   scene.add(glb.scene);
+// });
+
+// let plant;
+// loader.load("./assets/Small Plant.glb", (glb) => {
+//   glb.scene.scale.setScalar(1);
+//   glb.scene.traverse(function (node) {
+//     if (node.isMesh) {
+//       node.castShadow = true;
+//     }
+//   });
+//   plant = glb.scene;
+//   scene.add(glb.scene);
+// });
+
+// let rock;
+// loader.load("./assets/Desert pebble.glb", (glb) => {
+//   glb.scene.scale.setScalar(15);
+//   glb.scene.traverse(function (node) {
+//     if (node.isMesh) {
+//       node.castShadow = true;
+//     }
+//   });
+//   rock = glb.scene;
+//   scene.add(glb.scene);
+// });
 const loader = new GLTFLoader();
-loader.load("./assets/cactus.glb", (glb) => {
-  glb.scene.scale.setScalar(0.17);
-  glb.scene.traverse(function (node) {
-    if (node.isMesh) {
-      node.castShadow = true;
-    }
-  });
-  cactus = glb.scene;
-  scene.add(glb.scene);
-});
-
-let plant;
-loader.load("./assets/Small Plant.glb", (glb) => {
-  glb.scene.scale.setScalar(1);
-  glb.scene.traverse(function (node) {
-    if (node.isMesh) {
-      node.castShadow = true;
-    }
-  });
-  plant = glb.scene;
-  scene.add(glb.scene);
-});
-
-let rock;
-loader.load("./assets/Desert pebble.glb", (glb) => {
-  glb.scene.scale.setScalar(15);
-  glb.scene.traverse(function (node) {
-    if (node.isMesh) {
-      node.castShadow = true;
-    }
-  });
-  rock = glb.scene;
-  scene.add(glb.scene);
-});
-
 let ball2;
 loader.load("./assets/Tumbleweed.glb", (glb) => {
   glb.scene.scale.setScalar(0.7);
@@ -64,7 +82,6 @@ loader.load("./assets/Tumbleweed.glb", (glb) => {
       node.castShadow = true;
     }
   });
-  //   ball = glb.scene;
   ball2 = glb.scene;
   scene.add(glb.scene);
 });
@@ -78,7 +95,6 @@ loader.load("./assets/Tumbleweed.glb", (glb) => {
     }
   });
   ball = glb.scene;
-  // ball2 = glb.scene;
   scene.add(glb.scene);
 });
 
@@ -96,7 +112,7 @@ world.addBody(groundBody);
 
 const spherePhysMat = new CANNON.Material();
 const sphereBody = new CANNON.Body({
-  mass: 0.2,
+  mass: 0.05,
   shape: new CANNON.Sphere(0.5),
   position: new CANNON.Vec3(0, 10, 0),
   material: spherePhysMat,
@@ -116,10 +132,16 @@ world.addBody(sphereBody);
 world.addBody(sphereBody2);
 
 const cactusBody = new CANNON.Body({
-  shape: new CANNON.Box(new CANNON.Vec3(0.4, 2, 0.4)),
+  shape: new CANNON.Box(new CANNON.Vec3(0.4, 2.5, 0.4)),
   position: new CANNON.Vec3(2, 0, 3),
 });
 world.addBody(cactusBody);
+
+const cactusBody2 = new CANNON.Body({
+  shape: new CANNON.Box(new CANNON.Vec3(0.3, 2, 0.3)),
+  position: new CANNON.Vec3(-4, 0, -1),
+});
+world.addBody(cactusBody2);
 
 const plantBody = new CANNON.Body({
   shape: new CANNON.Box(new CANNON.Vec3(0.4, 0.2, 0.4)),
@@ -133,12 +155,40 @@ const rockBody = new CANNON.Body({
 });
 world.addBody(rockBody);
 
+const tentBody = new CANNON.Body({
+  shape: new CANNON.Box(new CANNON.Vec3(1, 0.6, 1.2)),
+  position: new CANNON.Vec3(-3, 0.8, -3.2),
+});
+tentBody.quaternion.set(0, 0.2, 0, 1);
+world.addBody(tentBody);
+
+const bonfireBody = new CANNON.Body({
+  shape: new CANNON.Box(new CANNON.Vec3(0.2, 0.1, 0.2)),
+  position: new CANNON.Vec3(-2.1, 0.15, -1.6),
+});
+world.addBody(bonfireBody);
+
+const goldRocksBody = new CANNON.Body({
+  shape: new CANNON.Box(new CANNON.Vec3(1.4, 0.9, 1)),
+  position: new CANNON.Vec3(3, 0.12, 0.6),
+});
+goldRocksBody.quaternion.set(0, 0.5, 0, 1);
+world.addBody(goldRocksBody);
+
 const groundSphereContactMat = new CANNON.ContactMaterial(
   groundPhysMat,
   spherePhysMat,
   { restitution: 0.6, friction: 0.02 }
 );
 world.addContactMaterial(groundSphereContactMat);
+
+getModel("Cactus", 0.17, cactusBody.position, cactusBody.quaternion);
+getModel("Small Plant", 1, plantBody.position, plantBody.quaternion);
+getModel("Desert pebble", 15, rockBody.position, rockBody.quaternion);
+getModel("Tent", 1.2, tentBody.position, tentBody.quaternion);
+getModel("Bonfire", 2.5, bonfireBody.position, bonfireBody.quaternion);
+getModel("Cactus", 0.12, cactusBody2.position, cactusBody2.quaternion);
+getModel("Gold Rocks", 7, goldRocksBody.position, goldRocksBody.quaternion);
 const timeStep = 1 / 60;
 
 const sizes = {
@@ -151,7 +201,7 @@ hemiLight.position.set(2000, 200, 0);
 scene.add(hemiLight);
 
 const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-dirLight.position.set(0, 4, 10);
+dirLight.position.set(0, 10, 4);
 dirLight.castShadow = true;
 scene.add(dirLight);
 
@@ -179,7 +229,7 @@ renderer.render(scene, camera);
 const loop = () => {
   window.requestAnimationFrame(loop);
   world.step(timeStep);
-
+  //   groundBody.quaternion.set(0.1, 0, 0, 1);
   plane.position.copy(groundBody.position);
   plane.quaternion.copy(groundBody.quaternion);
   if (ball) {
@@ -189,22 +239,23 @@ const loop = () => {
   if (ball2) {
     ball2.position.copy(sphereBody2.position);
     ball2.quaternion.copy(sphereBody2.quaternion);
-
     camera.lookAt(ball2.position.x, ball2.position.y, ball2.position.z);
     boom.position.copy(ball2.position);
   }
-  if (cactus) {
-    cactus.position.copy(cactusBody.position);
-    cactus.quaternion.copy(cactusBody.quaternion);
-  }
-  if (plant) {
-    plant.position.copy(plantBody.position);
-    plant.quaternion.copy(plantBody.quaternion);
-  }
-  if (rock) {
-    rock.position.copy(rockBody.position);
-    rock.quaternion.copy(rockBody.quaternion);
-  }
+  //   if (cactus) {
+  //     // cactusBody.quaternion.set(0.1, 0, 0, 1);
+  //     // cactusBody.position.y = -2 * Math.tan((18 * 2 * Math.PI) / 360);
+  //     cactus.position.copy(cactusBody.position);
+  //     cactus.quaternion.copy(cactusBody.quaternion);
+  //   }
+  //   if (plant) {
+  //     plant.position.copy(plantBody.position);
+  //     plant.quaternion.copy(plantBody.quaternion);
+  //   }
+  //   if (rock) {
+  //     rock.position.copy(rockBody.position);
+  //     rock.quaternion.copy(rockBody.quaternion);
+  //   }
 
   renderer.render(scene, camera);
 };
@@ -234,19 +285,32 @@ window.onkeyup = (e) => {
   keysMap[e.key] = e.type == "keydown";
 };
 let i = 0;
-window.addEventListener("keydown", (e) => {
-  let vectorX = 0,
-    vectorY = 0,
-    vectorZ = 0;
+window.addEventListener("keydown", () => {
+  const cameraDirection = camera.getWorldDirection(new THREE.Vector3());
 
-  if (keysMap["w"]) vectorZ = -1;
-  if (keysMap["s"]) vectorZ = 1;
-  if (keysMap["a"]) vectorX = -1;
-  if (keysMap["d"]) vectorX = 1;
-  if (keysMap[" "]) {
-    i++;
-    vectorY = 6;
-  }
-
-  sphereBody2.applyImpulse(new CANNON.Vec3(vectorX / 2, vectorY, vectorZ / 2));
+  if (keysMap["w"])
+    sphereBody2.applyImpulse(
+      new CANNON.Vec3(cameraDirection.x, 0, cameraDirection.z)
+    );
+  if (keysMap["s"])
+    sphereBody2.applyImpulse(
+      new CANNON.Vec3(-cameraDirection.x, 0, -cameraDirection.z)
+    );
+  if (keysMap["a"])
+    sphereBody2.applyImpulse(
+      new CANNON.Vec3(cameraDirection.z, 0, -cameraDirection.x)
+    );
+  if (keysMap["d"])
+    sphereBody2.applyImpulse(
+      new CANNON.Vec3(-cameraDirection.z, 0, cameraDirection.x)
+    );
+  if (keysMap[" "]) sphereBody2.applyImpulse(new CANNON.Vec3(0, 6, 0));
 });
+
+const sunsetButton = document.getElementById("sunset");
+const nightButton = document.getElementById("night");
+const noonButton = document.getElementById("noon");
+
+sunsetButton.addEventListener("click", changeTime);
+nightButton.addEventListener("click", changeTime);
+noonButton.addEventListener("click", changeTime);

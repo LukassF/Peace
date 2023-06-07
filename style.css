@@ -8,9 +8,29 @@ html, body{
   height: 100vh;
   overflow: hidden;
 }
+
+div{
+  position: absolute;
+  width:100vw;
+  height:100vh;
+  left:0;
+  top:0;
+  /* background-color: rgba(243, 156, 42, 0.3); sunset */
+  /* background-color: rgba(0, 0, 0,0.5);  night*/
+}
+
+aside{
+  position: absolute;
+  width:5%;
+  height:100vh;
+  left:0;
+  top:0;
+  background-color: blue;
+}
 canvas{
   display:flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
+
 }
