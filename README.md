@@ -15,3 +15,6 @@ The project is created with:
 * three version: 0.152.2
 * cannon-es version: 0.20.0
 * gsap version: 3.12.0
+
+## Visualization
+![Peace_pc](https://github.com/LukassF/Peace/assets/132075104/2f96310f-7ed4-4283-a8b7-db27f0adb0dc)
