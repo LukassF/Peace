@@ -77,8 +77,20 @@ const getModel = (url, scale, bodyPosition, bodyQuaternion) => {
     scene.add(glb.scene);
   });
 };
+const loadingManager = new THREE.LoadingManager();
+const loader = new GLTFLoader(loadingManager);
 
-const loader = new GLTFLoader();
+const loaderOverlay = document.getElementById("loading");
+const overlayContent = document.getElementById("overlay-content");
+loadingManager.onLoad = () => {
+  setTimeout(() => {
+    loaderOverlay.style.display = "none";
+    overlayContent.style.opacity = "1";
+  }, 500);
+  setTimeout(() => {
+    overlayContent.style.opacity = "0";
+  }, 2500);
+};
 
 //underside of the island
 loader.load("./assets/underside.glb", (glb) => {
@@ -408,9 +420,3 @@ addButton.addEventListener("click", () => {
   objectBody.position.set(0, 7, 0);
   scene.add(object);
 });
-
-const overlayContent = document.getElementById("overlay-content");
-
-window.onload = () => {
-  overlayContent.style.opacity = "0";
-};

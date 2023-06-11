@@ -9,6 +9,44 @@ html, body{
   overflow: hidden;
   font-family: 'Permanent Marker', cursive;
 }
+#mobile{
+  width:100vw;
+  height:100vh;
+  position: absolute;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap:40px;
+  padding: 40px;
+  top:0;
+  left:0;
+  z-index: 22;
+  background-color: rgb(0, 0, 0);
+}
+#mobile h1{
+  font-size: 1.5em;
+  color:white;
+}
+
+@media screen and (hover:hover){
+  #mobile{
+    display: none;
+  }
+}
+
+
+#loading{
+  width:100vw;
+  height:100vh;
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: 20;
+  background-color: rgb(0, 0, 0);
+  display:grid;
+  place-content: center;
+}
 
 #overlay{
   position: absolute;
@@ -24,11 +62,12 @@ html, body{
   overflow: hidden;
 }
 #overlay > div{
+  opacity: 0;
   display: grid;
   place-content: center;
   place-items: center;
   transition: opacity 2s;
-  transition-delay: 1s;
+  /* transition-delay: 1s; */
 }
 
 aside{
@@ -73,6 +112,14 @@ aside>div{
     aspect-ratio: 1/1;
   }
 }
+
+@media screen and (max-width:500px) {
+  aside button{
+    height:50px;
+    width:50px;
+    aspect-ratio: 1/1;
+  }
+}
 h1{
   cursor: default;
 }
@@ -82,7 +129,7 @@ h1{
   font-size: 0.9em;
   }
 }
-h3{
+#overlay h3{
   position: absolute;
   top:5%;
   left:50%;
@@ -95,7 +142,7 @@ h3{
 
 
 @media screen and (max-width:800px) {
-  h3{
+  #overlay h3{
   font-size: 0.6em;
   }
 }
@@ -167,4 +214,70 @@ canvas{
   justify-content: flex-end;
   align-items: flex-end;
 
+}
+
+@media screen and (hover:none){
+  canvas{
+    display: none;
+  }
+}
+
+
+/* loader */
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  /* background: blue; */
+  width: 80px;
+  height: 80px;
+  transform: scale(2);
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
 }
