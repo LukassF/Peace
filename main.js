@@ -420,3 +420,9 @@ addButton.addEventListener("click", () => {
   objectBody.position.set(0, 7, 0);
   scene.add(object);
 });
+
+window.onload = () => {
+  let soundtrack = new Audio("/assets/soundtrack.mp3");
+  soundtrack.loop = true;
+  soundtrack.play();
+};
