@@ -83,6 +83,7 @@ const loader = new GLTFLoader(loadingManager);
 const loaderOverlay = document.getElementById("loading");
 const overlayContent = document.getElementById("overlay-content");
 loadingManager.onLoad = () => {
+  console.log("loaded");
   setTimeout(() => {
     loaderOverlay.style.display = "none";
     overlayContent.style.opacity = "1";

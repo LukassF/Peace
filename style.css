@@ -29,7 +29,7 @@ html, body{
   color:white;
 }
 
-@media screen and (hover:hover){
+@media all and (any-hover:hover){
   #mobile{
     display: none;
   }
