@@ -27,6 +27,7 @@ html, body{
 #mobile h1{
   font-size: 1.5em;
   color:white;
+  text-align: center;
 }
 
 @media all and (any-hover:hover){
@@ -144,6 +145,7 @@ h1{
 @media screen and (max-width:800px) {
   #overlay h3{
   font-size: 0.6em;
+  padding: 0px 60px;
   }
 }
 
@@ -185,6 +187,11 @@ button{
 }
 #add-object-button{
   font-size: 0.8em;
+}
+@media screen and (max-width:600px) {
+  #add-object-button{
+    font-size: 0.6em;
+  }
 }
 #utility-buttons > button:hover{
   color:rgb(78, 78, 78);
