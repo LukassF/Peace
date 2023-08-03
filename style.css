@@ -223,7 +223,7 @@ canvas{
 
 }
 
-@media screen and (hover:none){
+@media (any-hover:none){
   canvas{
     display: none;
   }

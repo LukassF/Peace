@@ -54,6 +54,7 @@ renderer.render(scene, camera);
 
 //Creating ground geometry
 const planeGeometry = new THREE.BoxGeometry(10, 0.2, 10);
+
 const planeMaterial = new THREE.MeshStandardMaterial({
   map: sand,
 });
